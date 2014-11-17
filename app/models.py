@@ -1,34 +1,14 @@
 from . import db
 
-class Rankable(db.Model):
-	__tablename__ = 'rankables'
+class Student(db.Model):
+	__tablename__ = 'students'
 
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(128))
-	type = db.Column(db.String(40))
-	rankings = db.relationship('Ranking', backref='rankable')
-
-	__mapper_args__ = {
-		'polymorphic_identity': 'rankable',
-		'polymorphic_on': type,
-	}
-
-student_spells = db.Table('student_spells',
-	db.Column('student_id', db.Integer, db.ForeignKey('students.id')),
-	db.Column('spell_id', db.Integer, db.ForeignKey('spells.id'))
-)
-
-class Student(Rankable):
-	__tablename__ = 'students'
-
-	id = db.Column(db.Integer, db.ForeignKey('rankables.id'), primary_key=True)
+	rankings = db.relationship('Ranking', backref='student')
 	points = db.Column(db.Integer, default=0)
-	spells = db.relationship('Spell', secondary=student_spells, backref='casters')
+	spells = db.relationship('Spell', backref='caster')
 	posts = db.relationship('Post', backref='student')
-
-	__mapper_args__ = {
-		'polymorphic_identity': 'student'
-	}
 
 	def add_points(self, num):
 		self.points += num
@@ -36,16 +16,14 @@ class Student(Rankable):
 	def deduct_points(self, num):
 		self.points -= num
 
-class Spell(Rankable):
+class Spell(db.Model):
 	__tablename__ = 'spells'
 
-	id = db.Column(db.Integer, db.ForeignKey('rankables.id'), primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(128))
+	student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 	cost = db.Column(db.Integer)
 	description = db.Column(db.Text)
-
-	__mapper_args__ = {
-		'polymorphic_identity': 'spell'
-	}
 
 class Rank(db.Model):
 	__tablename__ = 'ranks'
@@ -68,7 +46,7 @@ class Ranking(db.Model):
 	tree_id = db.Column(db.Integer, db.ForeignKey('trees.id'), primary_key=True)
 	rank = db.relationship('Rank', backref='rankings')
 	tree = db.relationship('Tree', backref='rankings')
-	rankable_id = db.Column(db.Integer, db.ForeignKey('rankables.id'))
+	student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 	def title(self):
 		return self.rank.name + ' - ' + self.tree.name

@@ -25,7 +25,7 @@ class ModelsTestCase(unittest.TestCase):
 		stud = Student(name="me")
 		rank1 = Rank(name="rank1")
 		tree1 = Tree(name="tree1")
-		ranking1 = Ranking(rankable=stud, rank=rank1, tree=tree1)
+		ranking1 = Ranking(student=stud, rank=rank1, tree=tree1)
 
 		db.session.add(ranking1)
 		db.session.commit()
@@ -34,32 +34,12 @@ class ModelsTestCase(unittest.TestCase):
 
 		rank2 = Rank(name="rank2")
 		tree2 = Tree(name="tree2")
-		ranking2 = Ranking(rankable=stud, rank=rank2, tree=tree2)
+		ranking2 = Ranking(student=stud, rank=rank2, tree=tree2)
 
 		db.session.add(ranking2)
 		db.session.commit()
 
 		self.assertEqual(stud.rankings[1], ranking2)
-
-	def test_spells_have_multiple_rankings(self):
-		spell = Spell(name="me")
-		rank1 = Rank(name="rank1")
-		tree1 = Tree(name="tree1")
-		ranking1 = Ranking(rankable=spell, rank=rank1, tree=tree1)
-
-		db.session.add(ranking1)
-		db.session.commit()
-
-		self.assertEqual(spell.rankings[0], ranking1)
-
-		rank2 = Rank(name="rank2")
-		tree2 = Tree(name="tree2")
-		ranking2 = Ranking(rankable=spell, rank=rank2, tree=tree2)
-
-		db.session.add(ranking2)
-		db.session.commit()
-
-		self.assertEqual(spell.rankings[1], ranking2)
 
 	def test_ranking_title(self):
 		rank = Rank(name="Rank!")
@@ -84,25 +64,22 @@ class ModelsTestCase(unittest.TestCase):
 		stud = Student(name="Me")
 		spell1 = Spell(name="Firaga")
 		spell2 = Spell(name="Thundaga")
-		spell1.casters.append(stud)
-		spell2.casters.append(stud)
+		spell1.caster = stud
+		spell2.caster = stud
 		db.session.add(stud)
 		db.session.commit()
 
 		self.assertIn(spell1, stud.spells)
 		self.assertIn(spell2, stud.spells)
 
-	def test_spells_have_many_casters(self):
+	def test_spells_have_caster(self):
 		spell = Spell(name="Thundaga")
-		stud1 = Student(name="Lightning")
-		stud2 = Student(name="Cloud")
-		stud1.spells.append(spell)
-		stud2.spells.append(spell)
+		stud = Student(name="Lightning")
+		stud.spells.append(spell)
 		db.session.add(spell)
 		db.session.commit()
 
-		self.assertIn(stud1, spell.casters)
-		self.assertIn(stud2, spell.casters)
+		self.assertEqual(stud, spell.caster)
 
 	def test_spell_description(self):
 		spell = Spell(name="Thundaga", description="Big ass lightnin bolt")
