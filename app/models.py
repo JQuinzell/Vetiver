@@ -6,9 +6,22 @@ class Student(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(128))
 	rankings = db.relationship('Ranking', backref='student')
+	password = db.Column(db.String(80)) # Need to use hashing
 	points = db.Column(db.Integer, default=0)
 	spells = db.relationship('Spell', backref='caster')
 	posts = db.relationship('Post', backref='student')
+
+	def is_active(self):
+		return True
+
+	def get_id(self):
+		return unicode(self.id)
+
+	def is_anonymous(self):
+		return False
+
+	def is_authenticated(self):
+		return True
 
 	def add_points(self, num):
 		self.points += num
