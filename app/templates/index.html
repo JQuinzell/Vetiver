@@ -1,0 +1,12 @@
+<h1>Hello World!</h1>
+{% if current_user %}
+<h1>Welcome {{ current_user.name }}</h1>
+{% endif %}
+
+<form action="/" method="POST">
+	{{ form.hidden_tag() }}
+	{{ form.name.label }} {{ form.name }} <br>
+	{{ form.password.label }} {{ form.password }} <br>
+	{{ form.confirm.label }} {{ form.confirm }} <br>
+	{{ form.submit.label }} {{ form.submit }}
+</form>
