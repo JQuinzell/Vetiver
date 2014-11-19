@@ -17,6 +17,10 @@
 <h6><a href="{{ url_for('auth.logout') }}">Logout</a></h6>
 {% endif %}
 
+{% for msg in get_flashed_messages() %}
+  <p style="color: red;">{{ msg }}</p>
+{% endfor %}
+
 <form action="/" method="POST">
 	{{ form.hidden_tag() }}
 	{{ render_field(form.name) }}

@@ -18,6 +18,7 @@ def login():
 		student = Student.query.filter_by(name=form.name.data).first()
 		if student is not None and student.verify_password(form.password.data):
 			login_user(student)
+			flash("You have logged in")
 			return redirect(url_for('main.index'))
 
 	flash("Incorrect name or password")
@@ -27,4 +28,5 @@ def login():
 @auth.route('/logout') # Not using post as to avoid using a form for a link for now
 def logout():
 	logout_user()
-	return redirect(url_for('auth.login'))
+	flash("You have been logged out")
+	return redirect(url_for('main.index'))
