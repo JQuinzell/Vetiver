@@ -14,7 +14,7 @@
 <h1>Hello World!</h1>
 {% if current_user.is_authenticated() %}
 <h1>Welcome {{ current_user.name }}</h1>
-<h6><a href="{{ url_for('.logout') }}">Logout</a></h6>
+<h6><a href="{{ url_for('auth.logout') }}">Logout</a></h6>
 {% endif %}
 
 <form action="/" method="POST">
@@ -26,7 +26,7 @@
 </form>
 
 <h1>LOGIN INSTEAD</h1>
-<form action="/" method="POST">
+<form action="{{ url_for('auth.login') }}" method="POST">
 	{{ login.hidden_tag() }}
 	{{ login.name(placeholder="Name") }}
 	{{ login.password(placeholder="Password") }}

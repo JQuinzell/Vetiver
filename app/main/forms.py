@@ -2,6 +2,7 @@ from flask.ext.wtf import Form
 from wtforms import StringField, TextAreaField, BooleanField, SelectField, SubmitField, PasswordField, ValidationError
 from wtforms.validators import Required, Length, EqualTo, Regexp
 from ..models import Student
+from ..auth.forms import LoginForm
 
 class SignupForm(Form):
 	name = StringField('Username', validators=[
@@ -15,8 +16,3 @@ class SignupForm(Form):
 	def validate_name(self, field):
 		if Student.query.filter_by(name=field.data).first():
 			raise ValidationError("Name has already been taken")
-
-class LoginForm(Form):
-	name = StringField()
-	password = PasswordField()
-	submit = SubmitField()
