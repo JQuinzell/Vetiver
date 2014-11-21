@@ -116,3 +116,10 @@ class ModelsTestCase(unittest.TestCase):
 
 		self.assertIn(tag, post.tags)
 		self.assertIn(post, tag.posts)
+
+	def test_students_are_not_admins_by_default(self):
+		stud = Student(name="Nigger")
+		db.session.add(stud)
+		db.session.commit()
+
+		self.assertFalse(stud.admin)

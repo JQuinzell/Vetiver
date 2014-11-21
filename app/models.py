@@ -8,6 +8,7 @@ class Student(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(128))
 	rankings = db.relationship('Ranking', backref='student')
+	admin = db.Column(db.Boolean, default=False)
 	password_hash = db.Column(db.String(128))
 	points = db.Column(db.Integer, default=0)
 	spells = db.relationship('Spell', backref='caster')
