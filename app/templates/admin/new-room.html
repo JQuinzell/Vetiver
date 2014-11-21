@@ -1,0 +1,10 @@
+{% from "_form_macros.html" import render_field %}
+
+<h1>Create anew room</h1>
+
+<form action="" method="POST">
+	{{ form.hidden_tag() }}
+	{{ render_field(form.name) }}
+	{{ render_field(form.description) }}
+	{{ form.submit }}
+</form>

@@ -1,1 +1,9 @@
 <h1>Hello Admin!</h1>
+
+<a href="{{ url_for('admin.create_room') }}">Create new room!</a>
+
+<ul>
+{% for room in rooms %}
+	<li>{{ room.name }}</li>
+{% endfor %}
+</ul>
