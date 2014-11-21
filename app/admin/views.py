@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, flash
 from flask.ext.login import login_user, login_required, logout_user, current_user
 from . import admin
-from .forms import RoomForm
+from .forms import RoomForm, TagForm
 from .. import db
-from ..models import Room
+from ..models import Room, Tag
 
 @admin.before_request
 def authenticate_admin():
@@ -13,7 +13,9 @@ def authenticate_admin():
 @admin.route('/')
 def index():
 	rooms = Room.query.all()
-	return render_template('admin/index.html', rooms=rooms)
+	tags = Tag.query.all()
+
+	return render_template('admin/index.html', rooms=rooms, tags=tags)
 
 @admin.route('/create-room', methods=['GET', 'POST'])
 def create_room():
@@ -30,3 +32,16 @@ def create_room():
 		return redirect(url_for('admin.index'))
 
 	return render_template('admin/new-room.html', form=form)
+
+@admin.route('/create-tag', methods=['GET', 'POST'])
+def create_tag():
+	form = TagForm()
+
+	if form.validate_on_submit():
+		tag = Tag(name=form.name.data)
+		db.session.add(tag)
+		db.session.commit()
+		flash("%s tag has been created!" % tag.name)
+		return redirect(url_for('admin.index'))
+
+	return render_template('admin/new-tag.html', form=form)

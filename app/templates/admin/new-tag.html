@@ -1,0 +1,9 @@
+{% from "_form_macros.html" import render_field %}
+
+<h1>Create a new tag</h1>
+
+<form action="" method="POST">
+	{{ form.hidden_tag() }}
+	{{ form.name }}
+	{{ form.submit }}
+</form>
