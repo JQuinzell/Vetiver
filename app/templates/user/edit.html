@@ -1,0 +1,11 @@
+{% from "_form_macros.html" import render_field %}
+
+{% for msg in get_flashed_messages() %}
+  <p style="color: red;">{{ msg }}</p>
+{% endfor %}
+
+<form action="" method="post">
+	{{ form.hidden_tag() }}
+  {{ render_field(form.name) }}
+  {{ form.submit }}
+</form>
