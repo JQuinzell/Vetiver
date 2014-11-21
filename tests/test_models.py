@@ -123,3 +123,28 @@ class ModelsTestCase(unittest.TestCase):
 		db.session.commit()
 
 		self.assertFalse(stud.admin)
+
+	# room tests
+	def test_room_has_posts(self):
+		room = Room(name="Bathroom", description="Go on the pot")
+		user = Student(name="poster")
+		post = Post(body="The first post in the world!")
+		user.posts.append(post)
+		room.posts.append(post)
+
+		db.session.add(room)
+		db.session.commit()
+
+		self.assertIn(post, room.posts)
+
+	def test_post_has_room(self):
+		room = Room(name="Bathroom", description="Go on the pot")
+		user = Student(name="poster")
+		post = Post(body="The first post in the world!")
+		user.posts.append(post)
+		room.posts.append(post)
+
+		db.session.add(room)		
+		db.session.commit()
+
+		self.assertEqual(room, post.room)

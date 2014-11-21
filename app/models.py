@@ -76,6 +76,7 @@ class Post(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+	room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'))
 	body = db.Column(db.Text)
 	created_at = db.Column(db.DateTime)
 	tags = db.relationship('Tag', secondary=post_tags, backref="posts")
@@ -84,4 +85,13 @@ class Tag(db.Model):
 	__tablename__ = 'tags'
 
 	id = db.Column(db.Integer, primary_key=True)
+	type = db.Column(db.String(40))
 	name = db.Column(db.String(40))
+
+class Room(db.Model):
+	__tablename__ = 'rooms'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(60))
+	description = db.Column(db.Text)
+	posts = db.relationship('Post', backref='room')
