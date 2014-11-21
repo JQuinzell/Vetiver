@@ -1,7 +1,7 @@
 import os
 from app import create_app, db
 # import models
-from app.models import Student
+from app.models import Student, Post
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
@@ -11,7 +11,7 @@ migrate = Migrate(app, db)
 
 def make_shell_context():
 	# set any variables you want in the shell
-	return dict(app=app, db=db, Student=Student)
+	return dict(app=app, db=db, Student=Student, Post=Post)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
