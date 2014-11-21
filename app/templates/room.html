@@ -1,0 +1,20 @@
+{% from "_form_macros.html" import render_field %}
+
+<h1>{{ room.name }}</h1>
+<p>{{ room.description }}</p>
+
+<ul>
+	{% for post in posts %}
+		<li>
+			<h3>{{ post.student.name }} - {{ post.created_at }}</h3>
+			<p> {{ post.body }} </p>
+		</li>
+	{% endfor %}
+</ul>
+
+<h2>New Post</h2>
+<form action="" method="POST">
+	{{ form.hidden_tag() }}
+	{{ render_field(form.body) }}
+	{{ form.submit }}
+</form>

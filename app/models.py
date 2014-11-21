@@ -1,6 +1,7 @@
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
+from datetime import datetime
 
 class Student(UserMixin, db.Model):
 	__tablename__ = 'students'
@@ -78,7 +79,7 @@ class Post(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 	room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'))
 	body = db.Column(db.Text)
-	created_at = db.Column(db.DateTime)
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 	tags = db.relationship('Tag', secondary=post_tags, backref="posts")
 
 class Tag(db.Model):

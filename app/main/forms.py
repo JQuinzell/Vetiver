@@ -27,3 +27,7 @@ class ProfileForm(Form):
 	def validate_name(self, field):
 		if Student.query.filter_by(name=field.data).first():
 			raise ValidationError("Name has already been taken")
+
+class PostForm(Form):
+	body = TextAreaField(validators=[Required()])
+	submit = SubmitField("Post")
