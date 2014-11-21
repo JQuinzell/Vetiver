@@ -5,7 +5,7 @@ from ..models import Room, Tag
 
 
 class RoomForm(Form):
-	name = StringField("Tag Name", validators=[Required()])
+	name = StringField("Room Name", validators=[Required()])
 	description = TextAreaField("Room Description")
 	submit = SubmitField("Submit")
 
