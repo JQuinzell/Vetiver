@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, TextAreaField, BooleanField, SelectField, SubmitField, PasswordField, ValidationError
 from wtforms.validators import Required, Length, EqualTo, Regexp
-from ..models import Student
+from ..models import Student, Tag
 from ..auth.forms import LoginForm
 
 class SignupForm(Form):
@@ -30,4 +30,10 @@ class ProfileForm(Form):
 
 class PostForm(Form):
 	body = TextAreaField(validators=[Required()])
+	tag = SelectField('Tag', coerce=int)
 	submit = SubmitField("Post")
+
+	def __init__(self, *args, **kwargs):
+		super(PostForm, self).__init__(*args, **kwargs)
+		self.tag.choices = [(tag.id, tag.name) for tag in Tag.query.all()]
+		self.tag.choices.insert(0, (0, '--select tag--'))

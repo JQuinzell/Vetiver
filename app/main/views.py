@@ -3,7 +3,7 @@ from flask.ext.login import login_required, current_user, login_user
 from . import main
 from .forms import SignupForm, LoginForm, ProfileForm, PostForm
 from .. import db, lm
-from ..models import Student, Room, Post
+from ..models import Student, Room, Post, Tag
 
 @main.route('/', methods=["GET", "POST"])
 def index():
@@ -49,11 +49,13 @@ def room(name):
 
 	if form.validate_on_submit():
 		post = Post(student=current_user, body=form.body.data)
+		tag = Tag.query.get(form.tag.data)
+		if tag:
+			post.tags.append(tag)
 		room.posts.append(post)
 		flash("Posted Successfully!!!!")
 		db.session.add(post)
 		db.session.commit()
-		print post.created_at
 		return redirect(url_for('main.room', name=room.name))
 
 
