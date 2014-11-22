@@ -1,5 +1,9 @@
 <h1>Hello Admin!</h1>
 
+{% for msg in get_flashed_messages() %}
+  <p style="color: red;">{{ msg }}</p>
+{% endfor %}
+
 <a href="{{ url_for('admin.create_room') }}">Create new room!</a>
 <a href="{{ url_for('admin.create_tag') }}">Create a new tag!</a>
 
