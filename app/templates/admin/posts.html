@@ -1,0 +1,16 @@
+<h1>Moderate posts</h1>
+
+<ul>
+	{% for post in posts %}
+		<li>
+			<h3>{{ post.student.name }}</h3>
+			<p>{{post.body}}</p>
+			<ul>
+				{% for tag in post.tags%}
+					<li>{{ tag.name }}</li>
+				{% endfor %}
+			</ul>
+			<a href="{{ url_for('admin.close_post', id=post.id) }}">Close</a>
+		</li>
+	{% endfor %}
+</ul>

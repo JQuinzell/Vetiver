@@ -3,7 +3,7 @@ from flask.ext.login import login_user, login_required, logout_user, current_use
 from . import admin
 from .forms import RoomForm, TagForm
 from .. import db
-from ..models import Room, Tag
+from ..models import Room, Tag, Post
 
 @admin.before_request
 def authenticate_admin():
@@ -45,3 +45,16 @@ def create_tag():
 		return redirect(url_for('admin.index'))
 
 	return render_template('admin/new-tag.html', form=form)
+
+@admin.route('/posts')
+def posts():
+	posts = Post.query.filter(Post.closed == False).all()
+	return render_template('admin/posts.html', posts=posts)
+
+@admin.route('/posts/<int:id>/close')
+def close_post(id):
+	post = Post.query.get_or_404(id)
+	post.closed = True
+	db.session.add(post)
+	db.session.commit()
+	return redirect(url_for('admin.posts'))
