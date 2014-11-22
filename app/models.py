@@ -80,6 +80,7 @@ class Post(db.Model):
 	room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'))
 	body = db.Column(db.Text)
 	created_at = db.Column(db.DateTime, default=datetime.utcnow)
+	closed = db.Column(db.Boolean, default=False)
 	tags = db.relationship('Tag', secondary=post_tags, backref="posts")
 
 class Tag(db.Model):

@@ -148,3 +148,10 @@ class ModelsTestCase(unittest.TestCase):
 		db.session.commit()
 
 		self.assertEqual(room, post.room)
+
+	def test_closed_posts(self):
+		post = Post(body="TESTING")
+		db.session.add(post)
+		db.session.commit()
+
+		self.assertFalse(post.closed)
