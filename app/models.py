@@ -28,9 +28,13 @@ class Student(UserMixin, db.Model):
 
 	def add_points(self, num):
 		self.points += num
+		db.session.add(self)
+		db.session.commit()
 
 	def deduct_points(self, num):
 		self.points -= num
+		db.session.add(self)
+		db.session.commit()
 
 class Spell(db.Model):
 	__tablename__ = 'spells'
