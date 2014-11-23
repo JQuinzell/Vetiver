@@ -3,6 +3,7 @@
 <h1>Hello World!</h1>
 {% if current_user.is_authenticated() %}
 <h1>Welcome {{ current_user.name }}</h1>
+<a href="{{ url_for('profile.index', name=current_user.name) }}">Profile</a>
 <h6><a href="{{ url_for('auth.logout') }}">Logout</a></h6>
 {% endif %}
 
