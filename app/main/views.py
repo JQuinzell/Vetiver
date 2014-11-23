@@ -52,6 +52,8 @@ def room(name):
 		tag = Tag.query.get(form.tag.data)
 		if tag:
 			post.tags.append(tag)
+		else:
+			post.closed = True
 		room.posts.append(post)
 		flash("Posted Successfully!!!!")
 		db.session.add(post)

@@ -21,3 +21,10 @@
 		<li>{{ tag.name }}</li>
 	{% endfor %}
 </ul>
+
+<h2>Students</h2>
+<ul>
+	{% for student in students %}
+		<li><a href="{{ url_for('admin.student', name=student.name) }}">{{ student.name }}</a></li>
+	{% endfor %}
+</ul>

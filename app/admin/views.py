@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, flash
 from flask.ext.login import login_user, login_required, logout_user, current_user
 from . import admin
-from .forms import RoomForm, TagForm
+from .forms import RoomForm, TagForm, PointForm
 from .. import db
-from ..models import Room, Tag, Post
+from ..models import Room, Tag, Post, Student
 
 @admin.before_request
 def authenticate_admin():
@@ -14,8 +14,9 @@ def authenticate_admin():
 def index():
 	rooms = Room.query.all()
 	tags = Tag.query.all()
+	students = Student.query.all()
 
-	return render_template('admin/index.html', rooms=rooms, tags=tags)
+	return render_template('admin/index.html', rooms=rooms, tags=tags, students=students)
 
 @admin.route('/create-room', methods=['GET', 'POST'])
 def create_room():
@@ -58,3 +59,15 @@ def close_post(id):
 	db.session.add(post)
 	db.session.commit()
 	return redirect(url_for('admin.posts'))
+
+@admin.route('/students/<name>', methods=['GET', 'POST'])
+def student(name):
+	form = PointForm()
+	student = Student.query.filter_by(name=name).first()
+
+	if form.validate_on_submit():
+		student.add_points(form.points.data)		
+		return redirect(url_for('admin.student', name=student.name))
+
+	posts = Post.query.filter(student == student, Post.closed == False).all()
+	return render_template('admin/student.html', student=student, posts=posts, form=form)

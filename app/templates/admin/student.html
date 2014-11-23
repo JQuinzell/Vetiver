@@ -1,0 +1,17 @@
+{% from "_form_macros.html" import render_field %}
+
+<h1>{{ student.name }}</h1>
+<h4>Points: {{ student.points }}</h4>
+<h2>Add Points</h2>
+<form action="" method="POST">
+	{{ form.hidden_tag() }}
+	{{ render_field(form.points) }}
+	{{ form.submit }}
+</form>
+
+<h2>Unclosed posts</h2>
+<ul>
+	{% for post in posts %}
+		<li>{{ post.body }} <a href="{{ url_for('admin.close_post', id=post.id) }}">Close</a> </li>
+	{% endfor %}
+</ul>
