@@ -1,1 +1,13 @@
+{% from "_form_macros.html" import render_field %}
+
 <h1>{{student.name}}'s profile: points = {{student.points}}</h1>
+
+{% if current_user == student %}
+	<h2>Request Spell</h2>
+	<form action="" method="POST">
+		{{ form.hidden_tag() }}
+		{{ render_field(form.name) }}
+		{{ render_field(form.description) }}
+		{{ form.submit }}
+	</form>
+{% endif %}
