@@ -41,6 +41,8 @@ class Spell(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(128))
+	approved = db.Column(db.Boolean, default=False)
+	purchased = db.Column(db.Boolean, default=False)
 	student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 	cost = db.Column(db.Integer)
 	description = db.Column(db.Text)

@@ -86,6 +86,14 @@ class ModelsTestCase(unittest.TestCase):
 
 		self.assertEqual(spell.description, "Big ass lightnin bolt")
 
+	def test_spell_approval_purchase(self):
+		spell = Spell(name="Thundaga")
+		db.session.add(spell)
+		db.session.commit()
+
+		self.assertFalse(spell.approved)
+		self.assertFalse(spell.purchased)
+
 	def test_post_created_at(self):
 		now = datetime.now()
 		post = Post(created_at=now)
